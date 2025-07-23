@@ -168,7 +168,7 @@ graph TD
     H --> J[Spring Cache Abstraction]
     
     I --> K[Manual Cache Operations<br/>TTL Management<br/>Custom Keys]
-    J --> L[@Cacheable<br/>@CacheEvict<br/>@CachePut]
+    J --> L["@Cacheable<br/>@CacheEvict<br/>@CachePut"]
     
     style A fill:#e1f5fe
     style D fill:#f3e5f5
