@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="20250416160600-1" author="tung.dang2 (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="article"/>
+            </not>
+        </preConditions>
+        <createTable tableName="article">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_article_category" references="category(id)"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="path" type="varchar(500)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="summary" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="clob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="bigint" defaultValueNumeric="0"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(50)"/>
+            <column name="created_at" type="timestamp(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_at" type="timestamp(6)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20250416160600-2" author="tung.dang2 (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_article_name" tableName="article"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="idx_article_name" tableName="article">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="20250416160600-3" author="tung.dang2 (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_article_path" tableName="article"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="idx_article_path" tableName="article">
+            <column name="path"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

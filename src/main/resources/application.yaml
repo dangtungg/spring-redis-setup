@@ -1,0 +1,57 @@
+# Server Configuration
+server:
+  port: 8081
+  servlet:
+    context-path: /sample
+  tomcat:
+    threads:
+      max: ${SERVER_TOMCAT_MAX_THREADS:200}
+      min-spare: ${SERVER_TOMCAT_MIN_SPARE_THREADS:10}
+    max-connections: ${SERVER_TOMCAT_MAX_CONNECTIONS:2000}
+    accept-count: ${SERVER_TOMCAT_ACCEPT_COUNT:100}
+
+# Spring Configuration
+spring:
+  application:
+    name: spring-redis-setup
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/my_sample_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root@123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: ${DATABASE_HIKARI_CONNECTION_TIMEOUT:3000}
+      maximum-pool-size: ${DATABASE_HIKARI_MAXIMUM_POOL_SIZE:10}
+      minimum-idle: ${DATABASE_HIKARI_MINIMUM_IDLE:5}
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate.format_sql: false
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/master.xml
+    enabled: true
+
+application:
+  redis:
+    enabled: ${APPLICATION_REDIS_ENABLED:true} # Enable or disable Redis caching
+    mode: ${APPLICATION_REDIS_MODE:STANDALONE} # STANDALONE or CLUSTER
+    cluster:
+      nodes: ${redis.cluster-nodes:localhost:6376,localhost:6377,localhost:6378}
+    standalone:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+    security:
+      username: ${redis.username:}
+      password: ${redis.password:}
+    cache:
+      key-prefix: ${APPLICATION_REDIS_CACHE_PREFIX:spring_redis:local}
+      entities:
+        category:
+          warmup-on-startup: ${APPLICATION_REDIS_CACHE_CATEGORY_WARMUP_ON_STARTUP:true}
+        article:
+          warmup-on-startup: ${APPLICATION_REDIS_CACHE_ARTICLE_WARMUP_ON_STARTUP:true}
